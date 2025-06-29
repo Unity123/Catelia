@@ -3,6 +3,7 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include <stdio.h>
+#include "Model.h"
 
 /*void showMesh(objl::Mesh m) {
 	glBegin(GL_TRIANGLES);
@@ -25,14 +26,26 @@ int main() {
 	GLFWwindow* window = glfwCreateWindow(640, 480, "Catelia", NULL, NULL);
 	glfwMakeContextCurrent(window);
 
+	ModelManager m;
+	TextureManager t;
+
+	shared_ptr<Model> sphere = m.getModel("animegirl");
+
 	//objl::Loader l = objl::Loader();
 
 	//l.LoadFile("./testsphere.obj");
 
-	gluLookAt(0, 0, 100, 0, 0, 0, 0, 1, 0);
-
+	glClearColor(0.2, 0.2, 0.2, 0.2);
+	glViewport(0, 0, 640, 480);
+	gluPerspective(60, (float)(640.0 / 480.0), 2, 500);
+	gluLookAt(0, 0, -200, 0, 0, 0, 0, 1, 0);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glEnable(GL_TEXTURE_2D);
+	
 	while (true) {
-		
+		glfwPollEvents();
+		glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		sphere.get()->render();
 		glfwSwapBuffers(window);
 	}
 

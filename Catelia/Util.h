@@ -44,7 +44,7 @@ inline shared_ptr<U> MapCache<T, U>::get(T key)
 	}
 	if (m.count(key) == 0) {
 		U val = load(key);
-		m.emplace(key, make_shared(val));
+		m.emplace(key, make_shared<U>(val));
 	}
 	return m[key];
 }
@@ -58,5 +58,6 @@ inline MapCache<T, U>::MapCache(int size)
 template<typename T, typename U>
 inline MapCache<T, U>::MapCache()
 {
-	max_size = 20;
+	max_size = 50;
+	load = nullptr;
 }
