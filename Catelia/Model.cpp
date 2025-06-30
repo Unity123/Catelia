@@ -14,11 +14,13 @@ ModelManager* ModelManager::getInstance()
 
 shared_ptr<Model> ModelManager::getModel(string name)
 {
-    return map.get(name);
+    shared_ptr<Model> tmp = map.get(name);
+    return tmp;
 }
 
 ModelManager::ModelManager()
 {
+    map = MapCache<string, Model>();
     map.load = loadModel;
     instance = this;
 }
@@ -72,4 +74,8 @@ void Model::render()
         }
         glEnd();
     }
+}
+
+Model::~Model() {
+    printf("Model destroyed.\n");
 }
