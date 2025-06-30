@@ -41,6 +41,7 @@ int main() {
 	gluLookAt(0, 0, -200, 0, 0, 0, 0, 1, 0);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_DEPTH_TEST);
 	
 	while (true) {
 		glfwPollEvents();

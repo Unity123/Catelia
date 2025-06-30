@@ -12,6 +12,7 @@ using namespace std;
 class Model {
 public:
 	Model(string filename);
+	~Model();
 	void render();
 private:
 	tinyobj::attrib_t attrib;

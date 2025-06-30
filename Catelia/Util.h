@@ -46,7 +46,7 @@ inline shared_ptr<U> MapCache<T, U>::get(T key)
 		U val = load(key);
 		m.emplace(key, make_shared<U>(val));
 	}
-	return m[key];
+	return m[key];  
 }
 
 template<typename T, typename U>

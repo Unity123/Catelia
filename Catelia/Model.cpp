@@ -14,11 +14,13 @@ ModelManager* ModelManager::getInstance()
 
 shared_ptr<Model> ModelManager::getModel(string name)
 {
-    return map.get(name);
+    shared_ptr<Model> tmp = map.get(name);
+    return tmp;
 }
 
 ModelManager::ModelManager()
 {
+    map = MapCache<string, Model>();
     map.load = loadModel;
     instance = this;
 }
@@ -30,7 +32,7 @@ Model ModelManager::loadModel(string name)
 
 Model::Model(string filename)
 {
-    printf(filename.c_str());
+    printf("Loading Model: %s", filename.c_str());
     tinyobj::LoadObj(&attrib, &shapes, &materials, nullptr, nullptr, filename.c_str(), (filesystem::current_path() / "model" / "").generic_string().c_str());
     for (int i = 0; i < materials.size(); i++) {
         if (materials[i].diffuse_texname != "") {
@@ -72,4 +74,8 @@ void Model::render()
         }
         glEnd();
     }
+}
+
+Model::~Model() {
+    printf("Model destroyed.\n");
 }
