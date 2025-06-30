@@ -3,7 +3,7 @@
 using namespace std;
 
 #include <unordered_map>
-#include <queue>
+#include <set>
 #include <memory>
 
 /*// like a shared pointer, but doesn't autodelete, used specifically so that I can remove the item from the data structure when it's deleted
@@ -31,20 +31,20 @@ public:
 	MapCache();
 private:
 	unordered_map<T, shared_ptr<U>> m;
-	queue<T> ru;
+	set<T> ru;
 };
 
 template<typename T, typename U>
 inline shared_ptr<U> MapCache<T, U>::get(T key)
 {
-	ru.push(key);
+	ru.insert(key);
 	if (m.size() > max_size) {
-		m.erase(ru.front());
-		ru.pop();
+		m.erase(*ru.begin());
+		ru.erase(*ru.begin());
 	}
 	if (m.count(key) == 0) {
 		U val = load(key);
-		m.emplace(key, make_shared<U>(val));
+		m.insert({ key, make_shared<U>(move(val)) });
 	}
 	return m[key];  
 }
@@ -53,6 +53,7 @@ template<typename T, typename U>
 inline MapCache<T, U>::MapCache(int size)
 {
 	max_size = size;
+	load = nullptr;
 }
 
 template<typename T, typename U>

@@ -38,7 +38,7 @@ int main() {
 	glClearColor(0.2, 0.2, 0.2, 0.2);
 	glViewport(0, 0, 640, 480);
 	gluPerspective(60, (float)(640.0 / 480.0), 2, 500);
-	gluLookAt(0, 0, -200, 0, 0, 0, 0, 1, 0);
+	gluLookAt(0, 0, 200, 0, 0, 0, 0, 1, 0);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
