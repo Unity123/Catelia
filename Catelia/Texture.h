@@ -8,10 +8,12 @@ using namespace std;
 class Texture {
 public:
 	Texture(string filename);
+	//Texture(const Texture& o);
 	~Texture();
 	void set();
 	int getW();
 	int getH();
+	void compile();
 private:
 	unsigned char* tex;
 	int w;
@@ -36,7 +38,7 @@ public:
 	shared_ptr<Texture> getTexture(string name);
 	TextureManager();
 private:
-	static Texture loadTexture(string name);
+	static shared_ptr<Texture> loadTexture(string name);
 	MapCache<string, Texture> map;
 	static TextureManager* instance;
 };

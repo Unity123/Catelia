@@ -25,7 +25,7 @@ template<typename T, typename U>
 class MapCache {
 public:
 	shared_ptr<U> get(T key);
-	U (*load)(T);
+	shared_ptr<U> (*load)(T);
 	int max_size;
 	MapCache(int size);
 	MapCache();
@@ -43,8 +43,7 @@ inline shared_ptr<U> MapCache<T, U>::get(T key)
 		ru.erase(*ru.begin());
 	}
 	if (m.count(key) == 0) {
-		U val = load(key);
-		m.insert({ key, make_shared<U>(move(val)) });
+		m.insert({ key, load(key) });
 	}
 	return m[key];  
 }

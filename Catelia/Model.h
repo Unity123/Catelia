@@ -14,11 +14,13 @@ public:
 	Model(string filename);
 	~Model();
 	void render();
+	void compileLists();
 private:
 	tinyobj::attrib_t attrib;
 	vector<tinyobj::shape_t> shapes;
 	vector<tinyobj::material_t> materials;
 	vector<shared_ptr<Texture>> diffuse;
+	int dl;
 	//vector<shared_ptr<Texture>> normal;
 };
 
@@ -28,7 +30,7 @@ public:
 	shared_ptr<Model> getModel(string name);
 	ModelManager();
 private:
-	static Model loadModel(string name);
+	static shared_ptr<Model> loadModel(string name);
 	MapCache<string, Model> map;
 	static ModelManager* instance;
 };
