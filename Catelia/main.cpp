@@ -41,7 +41,7 @@ int main() {
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
 	glMatrixMode(GL_PROJECTION);
-	gluPerspective(60, (float)(640.0 / 480.0), 2, 500);
+	gluPerspective(60, (float)(640.0 / 480.0), 2, 1000);
 	glPushMatrix();
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 

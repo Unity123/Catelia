@@ -47,6 +47,8 @@ Model::Model(string filename)
 
 void Model::render()
 {
+    glPushAttrib(GL_ENABLE_BIT);
+    glEnable(GL_CULL_FACE);
     if (dl != 0) {
         for (int i = 0; i < shapes.size(); i++) {
             glCallList(dl + i);
@@ -55,6 +57,7 @@ void Model::render()
     else {
         compileLists();
     }
+    glPopAttrib();
 }
 
 void Model::compileLists()
@@ -64,7 +67,7 @@ void Model::compileLists()
         glNewList(dl + i, GL_COMPILE_AND_EXECUTE);
         glBegin(GL_TRIANGLES);
         int offset = 0;
-        int lastMat = 0;
+        int lastMat = -1;
         for (int j = 0; j < shapes[i].mesh.num_face_vertices.size(); j++) {
             int mati = shapes[i].mesh.material_ids[j];
             if (mati >= 0) {
@@ -79,8 +82,6 @@ void Model::compileLists()
             for (int k = 0; k < shapes[i].mesh.num_face_vertices[j]; k++) {
                 tinyobj::index_t id = shapes[i].mesh.indices[offset + k];
 
-                glVertex3f(attrib.vertices[3 * size_t(id.vertex_index)], attrib.vertices[3 * size_t(id.vertex_index) + 1], attrib.vertices[3 * size_t(id.vertex_index) + 2]);
-
                 if (id.normal_index >= 0) {
                     glNormal3f(attrib.normals[3 * size_t(id.normal_index)], attrib.normals[3 * size_t(id.normal_index) + 1], -attrib.normals[3 * size_t(id.normal_index) + 2]);
                 }
@@ -88,6 +89,8 @@ void Model::compileLists()
                 if (id.texcoord_index >= 0) {
                     glTexCoord2f(attrib.texcoords[2 * size_t(id.texcoord_index)], attrib.texcoords[2 * size_t(id.texcoord_index) + 1]);
                 }
+
+                glVertex3f(attrib.vertices[3 * size_t(id.vertex_index)], attrib.vertices[3 * size_t(id.vertex_index) + 1], attrib.vertices[3 * size_t(id.vertex_index) + 2]);
             }
             offset += shapes[i].mesh.num_face_vertices[j];
         }
