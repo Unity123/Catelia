@@ -40,6 +40,8 @@ int main() {
 	glViewport(0, 0, 640, 480);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
 	glMatrixMode(GL_PROJECTION);
 	gluPerspective(60, (float)(640.0 / 480.0), 2, 1000);
 	glPushMatrix();
@@ -74,6 +76,10 @@ int main() {
 		glPopMatrix();
 		glPushMatrix();
 		gluLookAt(camX, camY, camZ, camX, camY, 0, 0, 1, 0);
+		GLfloat* lightdef = new GLfloat[4]{ camX, camY, camZ, 1 };
+		glLightfv(GL_LIGHT0, GL_POSITION, lightdef);
+		glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.01);
+		delete[] lightdef;
 		sphere->render();
 		glfwSwapBuffers(window);
 	}

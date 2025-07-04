@@ -72,10 +72,25 @@ void Model::compileLists()
             int mati = shapes[i].mesh.material_ids[j];
             if (mati >= 0) {
                 tinyobj::material_t mat = materials[mati];
-                if (diffuse[mati] != nullptr && mati != lastMat) {
-                    glEnd();
-                    diffuse[mati]->set();
-                    glBegin(GL_TRIANGLES);
+                if (mati != lastMat) {
+                    if (diffuse[mati] != nullptr) {
+                        glEnd();
+                        diffuse[mati]->set();
+                        glBegin(GL_TRIANGLES);
+                    }
+                    GLfloat* ambient = new GLfloat[4]{ mat.ambient[0], mat.ambient[1], mat.ambient[2], 1 };
+                    glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
+                    delete[] ambient;
+                    GLfloat* diffuse = new GLfloat[4]{ mat.diffuse[0], mat.diffuse[1], mat.diffuse[2], 1 };
+                    glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
+                    delete[] diffuse;
+                    GLfloat* specular = new GLfloat[4]{ mat.specular[0], mat.specular[1], mat.specular[2], 1 };
+                    glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
+                    delete[] specular;
+                    GLfloat* emission = new GLfloat[4]{ mat.emission[0], mat.emission[1], mat.emission[2], 1 };
+                    glMaterialfv(GL_FRONT, GL_EMISSION, emission);
+                    delete[] emission;
+                    glMaterialf(GL_FRONT, GL_SHININESS, mat.shininess);
                     lastMat = mati;
                 }
             }
@@ -83,7 +98,7 @@ void Model::compileLists()
                 tinyobj::index_t id = shapes[i].mesh.indices[offset + k];
 
                 if (id.normal_index >= 0) {
-                    glNormal3f(attrib.normals[3 * size_t(id.normal_index)], attrib.normals[3 * size_t(id.normal_index) + 1], -attrib.normals[3 * size_t(id.normal_index) + 2]);
+                    glNormal3f(attrib.normals[3 * size_t(id.normal_index)], attrib.normals[3 * size_t(id.normal_index) + 1], attrib.normals[3 * size_t(id.normal_index) + 2]);
                 }
 
                 if (id.texcoord_index >= 0) {
