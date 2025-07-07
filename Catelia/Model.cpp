@@ -60,6 +60,17 @@ void Model::render()
     glPopAttrib();
 }
 
+void Model::renderX(float x, float y, float z, float xRot, float yRot, float zRot, float xScale, float yScale, float zScale) {
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glTranslatef(x, y, z);
+    glRotatef(zRot, 0, 0, 1);
+    glRotatef(xRot, 1, 0, 0);
+    glRotatef(yRot, 0, 1, 0);
+    glScalef(xScale, yScale, zScale);
+    render();
+}
+
 void Model::compileLists()
 {
     dl = glGenLists(shapes.size());

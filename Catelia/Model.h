@@ -14,6 +14,7 @@ public:
 	Model(string filename);
 	~Model();
 	void render();
+	void renderX(float x, float y, float z, float xRot, float yRot, float zRot, float xScale, float yScale, float zScale);
 	void compileLists();
 private:
 	tinyobj::attrib_t attrib;

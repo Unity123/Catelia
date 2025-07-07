@@ -47,40 +47,46 @@ int main() {
 	glPushMatrix();
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	float camX = 0;
-	float camY = 0;
-	float camZ = 200;
+	float x = 0;
+	float y = 0;
+	float z = 0;
+	float xRot = 0;
+	float yRot = 0;
+	float zRot = 0;
+	float xScale = 1;
+	float yScale = 1;
+	float zScale = 1;
 	
 	while (true) {
 		glfwPollEvents();
 		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-			camX -= 1;
+			xScale -= 0.01;
 		}
 		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-			camX += 1;
+			xScale += 0.01;
 		}
 		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-			camZ += 1;
+			zScale += 0.01;
 		}
 		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-			camZ -= 1;
+			zScale -= 0.01;
 		}
 		if (glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS) {
-			camY += 1;
+			yScale += 0.01;
 		}
 		if (glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS) {
-			camY -= 1;
+			yScale -= 0.01;
 		}
 		glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glMatrixMode(GL_PROJECTION);
 		glPopMatrix();
 		glPushMatrix();
-		gluLookAt(camX, camY, camZ, camX, camY, 0, 0, 1, 0);
-		GLfloat* lightdef = new GLfloat[4]{ camX, camY, camZ, 1 };
-		glLightfv(GL_LIGHT0, GL_POSITION, lightdef);
-		glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.01);
-		delete[] lightdef;
-		sphere->render();
+		gluLookAt(0, 0, 200, 0, 0, 0, 0, 1, 0);
+		//GLfloat* lightdef = new GLfloat[4]{ camX, camY, camZ, 1 };
+		/*glLightfv(GL_LIGHT0, GL_POSITION, lightdef);
+		glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.01);*/
+		//delete[] lightdef;
+		sphere->renderX(x, y, z, xRot, yRot, zRot, xScale, yScale, zScale);
 		glfwSwapBuffers(window);
 	}
 
